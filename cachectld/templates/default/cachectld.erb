@@ -9,20 +9,21 @@
 . /etc/init.d/functions
 
 prog="cachectld"
+lockfile="/var/lock/subsys/$prog"
 
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 
 start() {
   echo -n "Starting $prog: "
-  if [ -e /var/lock/subsys/$prog ]; then
+  if [ -e $lockfile ]; then
     failure
     echo
     echo $"$prog is already running.";
     return 1
   fi
-  daemon cachectld -c /etc/cachectld.toml &
+  cachectld -c /etc/cachectld.toml &
   RETVAL=$?
-  [ $RETVAL -eq 0 ] && touch /var/lock/subsys/$prog;
+  [ $RETVAL -eq 0 ] && touch $lockfile;
   success "$prog is running."
   echo
   return $RETVAL
@@ -30,7 +31,7 @@ start() {
 
 stop() {
   echo -n $"Stopping $prog: "
-  if [ ! -e /var/lock/subsys/$prog ]; then
+  if [ ! -e $lockfile ]; then
     failure
     echo
     echo "$prog is not running.";
@@ -38,7 +39,7 @@ stop() {
   fi
   killproc $prog
   RETVAL=$?
-  [ $RETVAL -eq 0 ] && rm -f /var/lock/subsys/$prog;
+  [ $RETVAL -eq 0 ] && rm -f $lockfile;
   echo
   return $RETVAL
 }

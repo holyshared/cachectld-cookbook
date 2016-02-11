@@ -38,7 +38,7 @@ end
 
 execute "add chkconfig" do
   command "chkconfig --add /etc/init.d/cachectld"
-  notifies :start, "service[cachectld]", :immediately
+  notifies :restart, "service[cachectld]", :immediately
 end
 
 service "cachectld" do
