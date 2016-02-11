@@ -1,0 +1,25 @@
+---
+driver:
+  name: ec2
+  aws_ssh_key_id: <%= ENV['AWS_KEY_PAIR'] %>
+  security_group_ids: [ "sg-34571351" ]
+  region: ap-northeast-1
+  availability_zone: ap-northeast-1a
+  require_chef_omnibus: true
+
+provisioner:
+  name: chef_solo
+
+platforms:
+  - name: AmazonLinux-201509
+    driver:
+      image_id: ami-393c1957
+    transport:
+      username: holyshared
+      ssh_key: <%= File.expand_path("~/.ssh/#{ENV['AWS_KEY_PAIR']}.pem") %>
+
+suites:
+  - name: default
+    run_list:
+      - recipe[cachectld::default]
+    attributes:

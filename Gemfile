@@ -14,3 +14,6 @@ gem 'dotenv'
 gem 'test-kitchen'
 gem 'kitchen-vagrant'
 gem 'kitchen-ec2'
+
+gem 'aws'
+gem 'aws-sdk'
