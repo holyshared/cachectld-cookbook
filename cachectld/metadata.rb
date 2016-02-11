@@ -1,1 +1,6 @@
 name "cachectld"
+version "0.1.0"
+description "cookbook for cachectld"
+maintainer "Noritaka Horio"
+maintainer_email "holy.shared.design@gmail.com"
+license "MIT"
